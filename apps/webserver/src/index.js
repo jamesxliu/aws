@@ -49,31 +49,36 @@ app.get('/', (req, res) => {
 //
 app.post('/upload', (req, res, next) => {
     let fstream;
+    let number;
+
     req.busboy.on('field', (fieldName, value) => {
         if(fieldName === 'precision') {
-            req.busboy.on('file', (field, file, fileName) => {
-                fstream = fs.createWriteStream(`${__dirname}/static/input/${fileName}`);
-                file.pipe(fstream);
-                fstream.on('close', () => {
-                    console.info('Uploaded', fileName);
-                    child.exec(`primitive -i ./dist/static/input/${fileName} -o ./dist/static/output/${fileName} -n ${value}`, (err, stdout, stderr) => {
-                        if(!err) {
-                            fs.emptyDir(`${__dirname}/static/input`, (err) => {
-                                if(!err) {
-                                    res.redirect(`/output/${fileName}`);
-                                    console.log(stdout);
-                                }else {
-                                    console.error(err);
-                                }
-                            })
-                        } else {
-                            console.error(err);
-                        }
-                    });
-                });
-            });
+            number = value;
         }
     });
+
+    req.busboy.on('file', (field, file, fileName) => {
+        fstream = fs.createWriteStream(`${__dirname}/static/input/${fileName}`);
+        file.pipe(fstream);
+        fstream.on('close', () => {
+            console.info('Uploaded', fileName);
+            child.exec(`primitive -i ./dist/static/input/${fileName} -o ./dist/static/output/${fileName} -n ${number || 100}`, (err, stdout, stderr) => {
+                if(!err) {
+                    fs.emptyDir(`${__dirname}/static/input`, (err) => {
+                        if(!err) {
+                            res.redirect(`/output/${fileName}`);
+                            console.log(stdout);
+                        }else {
+                            console.error(err);
+                        }
+                    })
+                } else {
+                    console.error(err);
+                }
+            });
+        });
+    });
+
     req.pipe(req.busboy);
 });
 
