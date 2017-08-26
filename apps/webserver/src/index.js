@@ -54,8 +54,12 @@ app.post('/upload', (req, res, next) => {
             console.info('Uploaded', fileName);
             child.exec(`primitive -i ./dist/input/${fileName} -o ./dist/output/${fileName}`, (err, stdout, stderr) => {
                 if(!err) {
-                    res.redirect('back');
-                    console.log(stdout);
+                    fs.emptyDir(`${__dirname}/static/input`, (err) => {
+                        if(!err) {
+                            res.redirect('back');
+                            console.log(stdout);
+                        }
+                    })
                 }
             });
         });
