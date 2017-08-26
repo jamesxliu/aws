@@ -65,6 +65,7 @@ app.post('/upload', (req, res, next) => {
             console.info('Uploaded', fileName);
             child.exec(`primitive -i ./dist/static/input/${fileName} -o ./dist/static/output/${fileName} -n ${number || 100}`, (err, stdout, stderr) => {
                 if(!err) {
+                    console.log('Rendered with precision of', number);
                     fs.emptyDir(`${__dirname}/static/input`, (err) => {
                         if(!err) {
                             res.redirect(`/output/${fileName}`);
