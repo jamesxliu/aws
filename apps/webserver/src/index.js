@@ -49,8 +49,6 @@ app.get('/', (req, res) => {
 //
 app.post('/upload', (req, res, next) => {
     let fstream;
-    req.pipe(req.busboy);
-
     req.busboy.on('field', (fieldName, value) => {
         if(fieldName === 'precision') {
             req.busboy.on('file', (field, file, fileName) => {
@@ -76,6 +74,7 @@ app.post('/upload', (req, res, next) => {
             });
         }
     });
+    req.pipe(req.busboy);
 });
 
 // Start listening
