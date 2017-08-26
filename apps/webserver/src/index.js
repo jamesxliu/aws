@@ -4,6 +4,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import * as path from 'path';
+import fs from 'fs-extra';
+import busboy from 'busboy';
 
 // requests/webhooks
 import request from 'request';
@@ -24,6 +26,9 @@ app.use(bodyParser.json({
     limit : '100kb'
 }));
 
+// busboy for multipart
+app.use(busboy());
+
 // expose output dir (/var/www/dist/output) as static directory at root route
 app.use(express.static(path.join(__dirname, 'static')));
 
@@ -34,8 +39,23 @@ app.get('/', (req, res) => {
     });
 });
 
+//
+app.post('/upload', (req, res, next) => {
+    let fstream;
+    req.pipe(req.busboy);
+    req.busboy.on('file', (field, file, fileName) => {
+        console.info('Uploading', fileName);
+        fstream = fs.createWriteStream(`${__dirname}/static/input/${fileName}`);
+        file.pipe(fstream);
+        fstream.on('close', () => {
+            console.info('Uploaded', fileName);
+            res.redirect('back');
+        });
+    });
+});
+
 // Start listening
-app.server.listen(process.env.PORT || 80, () => {
+app.server.listen(process.env.PORT || 8080, () => {
     console.log(`Started on port ${app.server.address().port}`);
 });
 
