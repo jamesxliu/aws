@@ -48,16 +48,16 @@ app.post('/upload', (req, res, next) => {
     req.pipe(req.busboy);
     req.busboy.on('file', (field, file, fileName) => {
         console.info('Uploading', fileName);
-        child.exec('ls', (err, stdout, stderr) => {
-            if(!err) {
-                console.log(stdout);
-            }
-        });
         fstream = fs.createWriteStream(`${__dirname}/static/input/${fileName}`);
         file.pipe(fstream);
         fstream.on('close', () => {
             console.info('Uploaded', fileName);
-            res.redirect('back');
+            child.exec(`primitive -i ./dist/input/${fileName} -o ./dist/output/${fileName}`, (err, stdout, stderr) => {
+                if(!err) {
+                    res.redirect('back');
+                    console.log(stdout);
+                }
+            });
         });
     });
 });
