@@ -52,14 +52,18 @@ app.post('/upload', (req, res, next) => {
         file.pipe(fstream);
         fstream.on('close', () => {
             console.info('Uploaded', fileName);
-            child.exec(`primitive -i ./dist/input/${fileName} -o ./dist/output/${fileName}`, (err, stdout, stderr) => {
+            child.exec(`primitive -i ./dist/static/input/${fileName} -o ./dist/static/output/${fileName}`, (err, stdout, stderr) => {
                 if(!err) {
                     fs.emptyDir(`${__dirname}/static/input`, (err) => {
                         if(!err) {
-                            res.redirect('back');
+                            res.redirect(`${__dirname}/static/output/${fileName}`);
                             console.log(stdout);
+                        }else {
+                            console.error(err);
                         }
                     })
+                } else {
+                    console.error(err);
                 }
             });
         });
