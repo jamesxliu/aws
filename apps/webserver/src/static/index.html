@@ -20,13 +20,14 @@
 
         form label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-weight: bold;
         }
 
-        form label input {
+        form label input,
+        form label select {
             display: block;
-            margin-top: 20px;
+            margin-top: 5px;
         }
 
         .submit {
@@ -83,6 +84,18 @@
     <label>
         Repeats (refinement - drastically slows down rendering)
         <input type="number" name="repeat" value="0"/>
+    </label>
+    <label>
+        Resize input
+        <input type="number" name="inputSize" value="256"/>
+    </label>
+    <label>
+        Output Size
+        <input type="number" name="outputSize" value="1024"/>
+    </label>
+    <label>
+        Color Alpha (0 to let algorithm decide)
+        <input type="number" name="alpha" value="128"/>
     </label>
     <input type='submit' class="submit"/>
     <br/>
