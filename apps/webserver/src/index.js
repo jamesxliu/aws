@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import * as path from 'path';
 import fs from 'fs-extra';
-import busboy from 'busboy';
+import busboy from 'connect-busboy';
 
 // requests/webhooks
 import request from 'request';
