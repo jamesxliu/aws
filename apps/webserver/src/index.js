@@ -50,11 +50,23 @@ app.get('/', (req, res) => {
 app.post('/upload', (req, res, next) => {
     let fstream;
     let number;
+    let mode;
+    let rep;
 
     req.busboy.on('field', (fieldName, value) => {
         if(fieldName === 'precision') {
             number = value;
             console.log('Precision set at', number);
+        }
+
+        if(fieldName === 'mode') {
+            mode = value;
+            console.log('Mode set at', mode);
+        }
+
+        if(fieldName === 'repeat') {
+            rep = value;
+            console.log('Repeat set at', rep);
         }
     });
 
@@ -63,7 +75,7 @@ app.post('/upload', (req, res, next) => {
         file.pipe(fstream);
         fstream.on('close', () => {
             console.info('Uploaded', fileName);
-            child.exec(`primitive -i ./dist/static/input/${fileName} -o ./dist/static/output/${fileName} -n ${number || 100}`, (err, stdout, stderr) => {
+            child.exec(`primitive -i ./dist/static/input/${fileName} -o ./dist/static/output/${fileName} -n ${number || '100'} -m ${mode || '0'} -rep ${rep || '0'}`, (err, stdout, stderr) => {
                 if(!err) {
                     console.log('Rendered with precision of', number);
                     fs.emptyDir(`${__dirname}/static/input`, (err) => {

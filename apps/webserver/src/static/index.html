@@ -47,7 +47,7 @@
 <body>
 <p>
 <ol>
-    <li>Upload image (JPEG, PNG, GIF)</li>
+    <li>Upload image</li>
     <li>Wait 0.5 - 2 minutes</li>
     <li>Server will redirect to results when done.</li>
 </ol>
@@ -61,6 +61,24 @@
     <label>
         Precision (50 - 200)
         <input type='number' name='precision' value="100"/>
+    </label>
+    <label>
+        Mode
+        <select name="mode">
+            <option value="0" selected>Combo (Default)</option>
+            <option value="1">Triangle</option>
+            <option value="2">Rectangle/option>
+            <option value="3">Ellipse</option>
+            <option value="4">Circle</option>
+            <option value="5">Rotated Rectangle</option>
+            <option value="6">Beziers</option>
+            <option value="7">Rotated Ellipse</option>
+            <option value="8">Polygon</option>
+        </select>
+    </label>
+    <label>
+        Repeats (refinement - drastically slows down rendering)
+        <input type="number" name="repeat" value="0"/>
     </label>
     <input type='submit' class="submit"/>
     <br/>
