@@ -12,6 +12,9 @@ import request from 'request';
 import requestPromise from 'request-promise';
 import Promise from 'bluebird';
 
+// shell
+import * as child from 'child_process';
+
 let app = express();
 app.server = http.createServer(app);
 
@@ -45,6 +48,11 @@ app.post('/upload', (req, res, next) => {
     req.pipe(req.busboy);
     req.busboy.on('file', (field, file, fileName) => {
         console.info('Uploading', fileName);
+        child.exec('ls', (err, stdout, stderr) => {
+            if(!err) {
+                console.log(stdout);
+            }
+        });
         fstream = fs.createWriteStream(`${__dirname}/static/input/${fileName}`);
         file.pipe(fstream);
         fstream.on('close', () => {
