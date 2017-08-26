@@ -26,7 +26,7 @@
 
         form label input {
             display: block;
-            margin-top: 10px;
+            margin-top: 20px;
         }
 
         .submit {
@@ -45,13 +45,17 @@
     </style>
 </head>
 <body>
+<div>
 <p>
+    This is a quick & dirty image transformation app leveraging an open source
+    core: <a href="https://github.com/fogleman/primitive">https://github.com/fogleman/primitive</a>
+</p>
 <ol>
     <li>Upload image</li>
-    <li>Wait 0.5 - 2 minutes</li>
+    <li>Wait 0.5 - 2+ minutes depending on settings</li>
     <li>Server will redirect to results when done.</li>
 </ol>
-</p>
+</div>
 <form method='post' action='upload' enctype="multipart/form-data">
     <label>
         Image (jpg, jpeg, png, svg)
