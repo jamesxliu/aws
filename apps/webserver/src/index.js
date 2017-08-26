@@ -54,6 +54,7 @@ app.post('/upload', (req, res, next) => {
     req.busboy.on('field', (fieldName, value) => {
         if(fieldName === 'precision') {
             number = value;
+            console.log('Precision set at', number);
         }
     });
 
