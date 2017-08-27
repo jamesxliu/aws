@@ -6,7 +6,7 @@
     <style>
         * {
             font-family: sans-serif;
-            font-size: 14px;
+            font-size: 16px;
         }
 
         body {
@@ -16,15 +16,10 @@
         .page {
             padding: 0 15px;
             width: 100%;
-            max-width: 800px;
         }
 
         h1 {
             font-size: 24px;
-        }
-
-        .description {
-            font-size: 16px;
         }
 
         form {
@@ -32,14 +27,11 @@
             background: #ccc;
         }
 
-        form {
-            font-size: 16px;
-        }
-
         form label {
             display: block;
             margin-bottom: 15px;
             font-weight: bold;
+            cursor: pointer;
         }
 
         form label input,
@@ -47,6 +39,33 @@
         form label textarea {
             display: block;
             margin-top: 5px;
+        }
+
+        form label textarea {
+            font-size: 12px!important;
+            font-family: monospace!important;
+        }
+
+        form label input[type='checkbox'] {
+            display: inline-block;
+        }
+
+        .formBody {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .formBody > div {
+            flex: 1 1 auto;
+            padding: 0 10px;
+        }
+
+        .formBody > div:first-child {
+            padding-left: 0;
+        }
+
+        .formBody > div:last-child {
+            padding-right: 0;
         }
 
         .ui-logs {
@@ -104,69 +123,74 @@
           method='post'
           action='upload'
           enctype="multipart/form-data">
-        <label>
-            Image (jpg, jpeg, png, svg)
-            <input type='file' name='fileUploaded'/>
-        </label>
+        <div class="formBody">
+            <div class="renderingArguments">
+                <label>
+                    Image (jpg, jpeg, png, svg)
+                    <input type='file' name='fileUploaded'/>
+                </label>
 
-        <label>
-            Precision (50 - 200)
-            <input type='number' name='n' value="100"/>
-        </label>
-        <label>
-            Mode
-            <select name="m">
-                <option value="0" selected>Combo (Default)</option>
-                <option value="1">Triangle</option>
-                <option value="2">Rectangle</option>
-                <option value="3">Ellipse</option>
-                <option value="4">Circle</option>
-                <option value="5">Rotated Rectangle</option>
-                <option value="6">Beziers</option>
-                <option value="7">Rotated Ellipse</option>
-                <option value="8">Polygon</option>
-            </select>
-        </label>
-        <label>
-            Repeats (refinement - drastically slows down rendering)
-            <input type="number" name="rep" value="0"/>
-        </label>
-        <label>
-            Resize input
-            <input type="number" name="r" value="256"/>
-        </label>
-        <label>
-            Output Size
-            <input type="number" name="s" value="1024"/>
-        </label>
-        <label>
-            Color Alpha (0 to let algorithm decide)
-            <input type="number" name="a" value="128"/>
-        </label>
-        <hr/>
-        <p>
-            <strong>Verbose Logging</strong>
-        </p>
-        <p>
-            Logs command line output (STDOUT) to dev console.
-        </p>
-        <label>
-            Enabled
-            <input class="v" type="checkbox" name="v"/>
-        </label>
-        <label>
-            High Granularity (more logs, more lag)
-            <input class="vv" type="checkbox" name="vv"/>
-        </label>
-        <label>
-            Show below instead (even more lag)
-            <input class="ui-logs-trigger" type="checkbox"/>
-        </label>
-        <div class="ui-logs">
-            <label>
-                Logs
-                <textarea readonly cols="56" style="font-family:monospace"></textarea>
-            </label>
+                <label>
+                    Precision (50 - 200)
+                    <input type='number' name='n' value="100"/>
+                </label>
+                <label>
+                    Mode
+                    <select name="m">
+                        <option value="0" selected>Combo (Default)</option>
+                        <option value="1">Triangle</option>
+                        <option value="2">Rectangle</option>
+                        <option value="3">Ellipse</option>
+                        <option value="4">Circle</option>
+                        <option value="5">Rotated Rectangle</option>
+                        <option value="6">Beziers</option>
+                        <option value="7">Rotated Ellipse</option>
+                        <option value="8">Polygon</option>
+                    </select>
+                </label>
+                <label>
+                    Repeats (refinement - drastically slows down rendering)
+                    <input type="number" name="rep" value="0"/>
+                </label>
+                <label>
+                    Resize input
+                    <input type="number" name="r" value="256"/>
+                </label>
+                <label>
+                    Output Size
+                    <input type="number" name="s" value="1024"/>
+                </label>
+                <label>
+                    Color Alpha (0 to let algorithm decide)
+                    <input type="number" name="a" value="128"/>
+                </label>
+            </div>
+            <div class="loggingArguments">
+                <div>
+                    <strong>Verbose Logging</strong>
+                </div>
+                <p>
+                    Logs command line output (STDOUT) to dev console.
+                </p>
+                <label>
+                    Enabled
+                    <input class="v" type="checkbox" name="v"/>
+                </label>
+                <label>
+                    High Granularity (more logs, more lag)
+                    <input class="vv" type="checkbox" name="vv"/>
+                </label>
+                <label>
+                    Show below instead (even more lag)
+                    <input class="ui-logs-trigger" type="checkbox"/>
+                </label>
+                <div class="ui-logs">
+                    <label>
+                        Logs
+                        <textarea readonly cols="56"></textarea>
+                    </label>
+                </div>
+            </div>
         </div>
         <hr/>
         <input type='submit' class="submit"/>
