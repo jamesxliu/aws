@@ -215,7 +215,7 @@
         };
         xhr.onprogress = function (e) {
             if (uiLogs) {
-                uiLogsWindow.value += this.response;
+                uiLogsWindow.value = this.response;
                 uiLogsWindow.scrollTop = uiLogsWindow.scrollHeight - uiLogsWindow.clientHeight;
             } else {
                 console.log(this.response);
