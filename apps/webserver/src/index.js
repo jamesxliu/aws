@@ -46,73 +46,72 @@ app.get('/', (req, res) => {
     });
 });
 
-//
+// Upload
 app.post('/upload', (req, res, next) => {
-    let fstream;
-    let number;
-    let mode;
-    let rep;
-    let r;
-    let s;
-    let a;
-
-    req.busboy.on('field', (fieldName, value) => {
-        if(fieldName === 'precision') {
-            number = value;
-            console.log('Precision set at', number);
-        }
-
-        if(fieldName === 'mode') {
-            mode = value;
-            console.log('Mode set at', mode);
-        }
-
-        if(fieldName === 'repeat') {
-            rep = value;
-            console.log('Repeat set at', rep);
-        }
-
-        if(fieldName === 'inputSize') {
-            r = value;
-            console.log(`Input resized to ${r}px wide`);
-        }
-
-        if(fieldName === 'outputSize') {
-            s = value;
-            console.log(`Output will be resized to ${s}px wide`);
-        }
-
-        if(fieldName === 'alpha') {
-            a = value;
-            console.log('Alpha set to', a);
-        }
+    res.setTimeout(0);
+    res.set({
+        "Content-Type": "text/event-stream",
+        "Cache-control": "no-cache"
     });
+
+    let fstream;
+    let flags = new String();
+    let renderProcess;
+
+    const fieldsToFlags = (fieldName, value) => {
+        flags+=` -${fieldName} ${value}`;
+        console.log(`Passing argument: -${fieldName} ${value}`);
+    };
+
+    const startRender = (fileName) => {
+        renderProcess = child.spawn(
+            'primitive',
+            `-i ./dist/static/input/${fileName} -o ./dist/static/output/${fileName}`.concat(flags).split(' ')
+        )
+    };
+
+    req.busboy.on('field', fieldsToFlags);
 
     req.busboy.on('file', (field, file, fileName) => {
         fstream = fs.createWriteStream(`${__dirname}/static/input/${fileName}`);
         file.pipe(fstream);
         fstream.on('close', () => {
             console.info('Uploaded', fileName);
-            child.exec(`primitive -i ./dist/static/input/${fileName} -o ./dist/static/output/${fileName} -n ${number || '100'} -m ${mode || '0'} -rep ${rep || '0'} -r ${r || '256'} -s ${s || '1024'} -a ${a || '128'}`, (err, stdout, stderr) => {
-                if(!err && !stderr) {
-                    console.log('Rendered with precision of', number);
-                    fs.emptyDir(`${__dirname}/static/input`, (err) => {
-                        if(!err) {
-                            res.redirect(`/output/${fileName}`);
-                            console.log(stdout);
-                        }else {
-                            console.error(err);
-                        }
-                    })
-                } else {
-                    if(err) {
+            startRender(fileName);
+            renderProcess.stdout.pipe(res);
+            renderProcess.on('close', (code, signal) => {
+                console.log('Rendering exit: ', signal);
+                fs.emptyDir(`${__dirname}/static/input`, (err) => {
+                    if(!err) {
+                        //res.redirect(`/output/${fileName}`);
+                        console.log('Cleaned up input.');
+                    }else {
                         console.error(err);
                     }
-                    if(stderr) {
-                        console.error(stderr);
-                    }
-                }
+                })
             });
+            //child.exec(
+            //    `primitive -i ./dist/static/input/${fileName} -o ./dist/static/output/${fileName}`.concat(flags).concat(' -vv'),
+            //    (err, stdout, stderr) => {
+            //        if(!err && !stderr) {
+            //            fs.emptyDir(`${__dirname}/static/input`, (err) => {
+            //                if(!err) {
+            //                    //res.redirect(`/output/${fileName}`);
+            //                    console.log('Cleaned up input.');
+            //                }else {
+            //                    console.error(err);
+            //                }
+            //            })
+            //        } else {
+            //            if(err) {
+            //                console.error(err);
+            //            }
+            //            if(stderr) {
+            //                console.error(stderr);
+            //            }
+            //        }
+            //    }
+            //);
         });
     });
 
