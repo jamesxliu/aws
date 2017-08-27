@@ -83,35 +83,12 @@ app.post('/upload', (req, res, next) => {
                 console.log('Rendering exit: ', signal);
                 fs.emptyDir(`${__dirname}/static/input`, (err) => {
                     if(!err) {
-                        //res.redirect(`/output/${fileName}`);
                         console.log('Cleaned up input.');
                     }else {
                         console.error(err);
                     }
                 })
             });
-            //child.exec(
-            //    `primitive -i ./dist/static/input/${fileName} -o ./dist/static/output/${fileName}`.concat(flags).concat(' -vv'),
-            //    (err, stdout, stderr) => {
-            //        if(!err && !stderr) {
-            //            fs.emptyDir(`${__dirname}/static/input`, (err) => {
-            //                if(!err) {
-            //                    //res.redirect(`/output/${fileName}`);
-            //                    console.log('Cleaned up input.');
-            //                }else {
-            //                    console.error(err);
-            //                }
-            //            })
-            //        } else {
-            //            if(err) {
-            //                console.error(err);
-            //            }
-            //            if(stderr) {
-            //                console.error(stderr);
-            //            }
-            //        }
-            //    }
-            //);
         });
     });
 
