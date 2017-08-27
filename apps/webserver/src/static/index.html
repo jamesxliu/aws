@@ -9,8 +9,22 @@
             font-size: 14px;
         }
 
+        body {
+            margin: 0;
+        }
+
+        .page {
+            padding: 0 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+
         h1 {
-            font-size: 32px;
+            font-size: 24px;
+        }
+
+        .description {
+            font-size: 16px;
         }
 
         form {
@@ -60,114 +74,123 @@
     </style>
 </head>
 <body>
-<div>
-<h1>
-    Render Images using Geometric Primitives
-</h1>
-<p>
-    This is a quick & dirty image "conversion" app. It recreates your source image using geometric primitives such as
-    triangles, squares, rectangles, circles, and ellipses.
-    <br/>
-    There are a handful of different rendering modes which control which primitives are used.
-    <br/>
-    All of the heavy lifting is dne by an open source core: <a href="https://github.com/fogleman/primitive">https://github.com/fogleman/primitive</a>
-</p>
-<ol>
-    <li>Upload image</li>
-    <li>Wait 0.5 - 2+ minutes depending on settings</li>
-    <li>Server will redirect to results when done.</li>
-</ol>
-</div>
-<form class="uploadForm"
-      method='post'
-      action='upload'
-      enctype="multipart/form-data">
-    <label>
-        Image (jpg, jpeg, png, svg)
-        <input type='file' name='fileUploaded'/>
-    </label>
-
-    <label>
-        Precision (50 - 200)
-        <input type='number' name='n' value="100"/>
-    </label>
-    <label>
-        Mode
-        <select name="m">
-            <option value="0" selected>Combo (Default)</option>
-            <option value="1">Triangle</option>
-            <option value="2">Rectangle</option>
-            <option value="3">Ellipse</option>
-            <option value="4">Circle</option>
-            <option value="5">Rotated Rectangle</option>
-            <option value="6">Beziers</option>
-            <option value="7">Rotated Ellipse</option>
-            <option value="8">Polygon</option>
-        </select>
-    </label>
-    <label>
-        Repeats (refinement - drastically slows down rendering)
-        <input type="number" name="rep" value="0"/>
-    </label>
-    <label>
-        Resize input
-        <input type="number" name="r" value="256"/>
-    </label>
-    <label>
-        Output Size
-        <input type="number" name="s" value="1024"/>
-    </label>
-    <label>
-        Color Alpha (0 to let algorithm decide)
-        <input type="number" name="a" value="128"/>
-    </label>
-    <hr/>
-    <p>
-        <strong>Verbose Logging</strong>
-    </p>
-    <p>
-        Logs command line output (STDOUT) to dev console.
-    </p>
-    <label>
-        Enabled
-        <input class="v" type="checkbox" name="v"/>
-    </label>
-    <label>
-        High Granularity (more logs, more lag)
-        <input class="vv" type="checkbox" name="vv"/>
-    </label>
-    <label>
-        Show below instead (even more lag)
-        <input class="ui-logs-trigger" type="checkbox"/>
-    </label>
-    <div class="ui-logs">
-        <label>
-            Logs
-            <textarea readonly cols="56" style="font-family:monospace"></textarea>
-        </label>
+<div class="page">
+    <h1>
+        Render Images using Geometric Primitives
+    </h1>
+    <div class="description">
+        <p>
+            This is a quick & dirty image "conversion" app. It recreates your source image using geometric primitives
+            such as
+            triangles, squares, rectangles, circles, and ellipses.
+        </p>
+        <p>
+            There are a handful of different rendering modes which control which primitives are used.
+        </p>
+        <p>
+            All of the heavy lifting is done by an open source core: <a href="https://github.com/fogleman/primitive">https://github.com/fogleman/primitive</a>
+        </p>
+        <p>
+            <strong>Steps:</strong>
+            <br/>
+            <ol>
+                <li>Upload image</li>
+                <li>Wait 1 - 5+ minutes depending on settings</li>
+                <li>App will attempt to open new tab with output image once done. (disable your popup blocker)</li>
+            </ol>
+        </p>
     </div>
-    <hr/>
-    <input type='submit' class="submit"/>
-</form>
+    <form class="uploadForm"
+          method='post'
+          action='upload'
+          enctype="multipart/form-data">
+        <label>
+            Image (jpg, jpeg, png, svg)
+            <input type='file' name='fileUploaded'/>
+        </label>
+
+        <label>
+            Precision (50 - 200)
+            <input type='number' name='n' value="100"/>
+        </label>
+        <label>
+            Mode
+            <select name="m">
+                <option value="0" selected>Combo (Default)</option>
+                <option value="1">Triangle</option>
+                <option value="2">Rectangle</option>
+                <option value="3">Ellipse</option>
+                <option value="4">Circle</option>
+                <option value="5">Rotated Rectangle</option>
+                <option value="6">Beziers</option>
+                <option value="7">Rotated Ellipse</option>
+                <option value="8">Polygon</option>
+            </select>
+        </label>
+        <label>
+            Repeats (refinement - drastically slows down rendering)
+            <input type="number" name="rep" value="0"/>
+        </label>
+        <label>
+            Resize input
+            <input type="number" name="r" value="256"/>
+        </label>
+        <label>
+            Output Size
+            <input type="number" name="s" value="1024"/>
+        </label>
+        <label>
+            Color Alpha (0 to let algorithm decide)
+            <input type="number" name="a" value="128"/>
+        </label>
+        <hr/>
+        <p>
+            <strong>Verbose Logging</strong>
+        </p>
+        <p>
+            Logs command line output (STDOUT) to dev console.
+        </p>
+        <label>
+            Enabled
+            <input class="v" type="checkbox" name="v"/>
+        </label>
+        <label>
+            High Granularity (more logs, more lag)
+            <input class="vv" type="checkbox" name="vv"/>
+        </label>
+        <label>
+            Show below instead (even more lag)
+            <input class="ui-logs-trigger" type="checkbox"/>
+        </label>
+        <div class="ui-logs">
+            <label>
+                Logs
+                <textarea readonly cols="56" style="font-family:monospace"></textarea>
+            </label>
+        </div>
+        <hr/>
+        <input type='submit' class="submit"/>
+    </form>
+</div>
 </body>
 <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    (function($){
+    (function ($) {
         var uiLogs = false;
         var uiLogsWindow = $('.ui-logs textarea').val('')[0];
         var outputPath;
 
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {//Call a function when the state changes.
-            if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+        xhr.onreadystatechange = function () {//Call a function when the state changes.
+            if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var outputCaptureRegex = new RegExp(".+(\/.+\.[a-z A-Z]{3,4})", "i");
                 outputPath = this.responseText.match(outputCaptureRegex)[1];
                 window.open('/output'.concat(outputPath), '_blank');
                 console.log('Done: ', this);
             }
         };
-        xhr.onprogress = function(e) {
-            if(uiLogs) {
+        xhr.onprogress = function (e) {
+            if (uiLogs) {
                 uiLogsWindow.value += this.response;
                 uiLogsWindow.scrollTop = uiLogsWindow.scrollHeight - uiLogsWindow.clientHeight;
             } else {
@@ -175,21 +198,21 @@
             }
         };
 
-        $('.ui-logs-trigger').click(function(e) {
+        $('.ui-logs-trigger').click(function (e) {
             uiLogs = $(this).prop('checked');
             console.log('Checked', uiLogs);
         });
 
-        $('.v').click(function() {
+        $('.v').click(function () {
             $('.vv').attr('name', ($(this).prop('checked') ? null : 'vv'));
         });
 
-        $('.vv').click(function(){
+        $('.vv').click(function () {
             $('.v').attr('name', ($(this).prop('checked') ? null : 'v'));
             $(this)[0].name = 'vv';
         });
 
-        $('.uploadForm').submit(function(e){
+        $('.uploadForm').submit(function (e) {
             e.preventDefault();
             $('.ui-logs textarea').val('');
             xhr.open('POST', '/upload', true);
