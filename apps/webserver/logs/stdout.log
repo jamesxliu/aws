@@ -1,13 +1,1 @@
 Started on port 8080
-[0mGET / [32m200 [0m6.589 ms - 8511[0m
-[0mGET /js/jquery-3.2.1.min.js [32m200 [0m1.755 ms - 124558[0m
-[0mGET /js/jquery-3.2.1.min.js.map [32m200 [0m1.364 ms - 291372[0m
-Passing argument: -n 100
-Passing argument: -m 0
-Passing argument: -rep 0
-Passing argument: -r 256
-Passing argument: -s 1024
-Passing argument: -a 128
-Passing argument: -v on
-Uploaded 0429171046.jpg
-Started on port 8080
