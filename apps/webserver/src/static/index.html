@@ -221,7 +221,7 @@
             }
         }
 
-        var uiLogs = false;
+        var uiLogs = true;
         var uiLogsWindow = $('.ui-logs textarea').val('')[0];
         var outputPath;
 
@@ -230,6 +230,7 @@
             if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
                 var outputCaptureRegex = new RegExp(".+(\/.+\.[a-z A-Z]{3,4})", "i");
                 outputPath = this.responseText.match(outputCaptureRegex)[1];
+                toggleSubmitButtonState();
                 window.open('/output'.concat(outputPath), '_blank');
                 console.log('Done: ', this);
             }
@@ -259,6 +260,7 @@
 
         $('.uploadForm').submit(function (e) {
             e.preventDefault();
+            toggleSubmitButtonState();
             $('.ui-logs textarea').val('');
             xhr.open('POST', '/upload', true);
             xhr.send(new FormData(this));
