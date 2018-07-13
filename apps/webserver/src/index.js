@@ -46,8 +46,14 @@ app.get('/', (req, res) => {
     });
 });
 
+var inProgress = false;
+
 // Upload
 app.post('/upload', (req, res, next) => {
+    if(inProgress === true) {
+        res.sendStatus(400);
+    }
+
     res.setTimeout(0);
     res.set({
         "Content-Type": "text/event-stream",

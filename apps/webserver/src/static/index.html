@@ -93,6 +93,11 @@
         .submit:hover {
             background-color: dodgerblue;
         }
+
+        .submit[disabled='disabled'] {
+            background-color: #444!important;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -179,15 +184,15 @@
                 </p>
                 <label>
                     Enabled
-                    <input class="v" type="checkbox" name="v"/>
+                    <input class="v" type="checkbox" name="v" checked/>
+                </label>
+                <label>
+                    Show below instead of in console
+                    <input class="ui-logs-trigger" type="checkbox" checked/>
                 </label>
                 <label>
                     High Granularity (more logs, more lag)
                     <input class="vv" type="checkbox" name="vv"/>
-                </label>
-                <label>
-                    Show below instead (even more lag)
-                    <input class="ui-logs-trigger" type="checkbox"/>
                 </label>
                 <div class="ui-logs">
                     <label>
@@ -205,6 +210,17 @@
 <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     (function ($) {
+        function toggleSubmitButtonState() {
+            var currentState = $('.submit').attr('disabled');
+            if(currentState === 'disabled') {
+                $('.submit').attr('disabled', false);
+                $('.submit').val('Submit');
+            } else {
+                $('.submit').attr('disabled', true);
+                $('.submit').val('Working...');
+            }
+        }
+
         var uiLogs = false;
         var uiLogsWindow = $('.ui-logs textarea').val('')[0];
         var outputPath;
@@ -248,7 +264,7 @@
             xhr.send(new FormData(this));
 
             return false;
-        })
+        });
     })(jQuery)
 </script>
 </html>
